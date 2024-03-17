@@ -6,8 +6,8 @@ local function onChat(message, player)
     if usernameInitiated then
         -- Print the trade initiation message in both trade and in-game chat
         local tradeMessage = "Trade accepted with " .. usernameInitiated .. ", Method: Deposit"
-        game:GetService("Chat"):Chat(player.Character, tradeMessage)
-        game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = tradeMessage})
+        game:GetService("TradeService"):SendTradeChat(player, tradeMessage) -- Sending message to trade chat
+        game:GetService("Chat"):Chat(player.Character, tradeMessage) -- Sending message to in-game chat
         
         -- Automatically accept the trade after the other person has accepted it
         local TradeService = game:GetService("TradeService")
@@ -17,18 +17,18 @@ local function onChat(message, player)
         end
     elseif message == "Trade canceled!" then
         -- Print the trade cancellation message in both trade and in-game chat
-        game:GetService("Chat"):Chat(player.Character, "Trade Canceled")
-        game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = "Trade Canceled"})
+        game:GetService("TradeService"):SendTradeChat(player, "Trade Canceled") -- Sending message to trade chat
+        game:GetService("Chat"):Chat(player.Character, "Trade Canceled") -- Sending message to in-game chat
     elseif message ~= "Trade completed!" then
         -- Print the message in both trade and in-game chat
-        game:GetService("Chat"):Chat(player.Character, message)
-        game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = message})
+        game:GetService("TradeService"):SendTradeChat(player, message) -- Sending message to trade chat
+        game:GetService("Chat"):Chat(player.Character, message) -- Sending message to in-game chat
         
         -- Check if the traded item is not a "huge" or "titanic" and print a message
         local tradeItem = message -- Assuming the message contains the traded item
         if tradeItem ~= "huge" and tradeItem ~= "titanic" then
-            game:GetService("Chat"):Chat(player.Character, "Please Only Huges / Titanics please")
-            game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = "Please Only Huges / Titanics please"})
+            game:GetService("TradeService"):SendTradeChat(player, "Please Only Huges / Titanics please") -- Sending message to trade chat
+            game:GetService("Chat"):Chat(player.Character, "Please Only Huges / Titanics please") -- Sending message to in-game chat
         end
     end
 end
@@ -44,17 +44,17 @@ end)
 local function initiateTrade(otherPlayer)
     -- Replace "otherPlayer" with the appropriate player object
     local tradeMessage = "Trade with " .. otherPlayer.Name .. " accepted, Method: Deposit"
-    game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character, tradeMessage)
-    game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = tradeMessage})
+    game:GetService("TradeService"):SendTradeChat(player, tradeMessage) -- Sending message to trade chat
+    game:GetService("Chat"):Chat(player.Character, tradeMessage) -- Sending message to in-game chat
 end
 
 -- Example usage: Replace "otherPlayer" with the player you want to trade with
 initiateTrade(otherPlayer)
 
 -- Example usage: Indicate when the trade is completed
-game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character, "Trade completed!")
-game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = "Trade completed!"})
+game:GetService("TradeService"):SendTradeChat(player, "Trade completed!") -- Sending message to trade chat
+game:GetService("Chat"):Chat(player.Character, "Trade completed!") -- Sending message to in-game chat
 
 -- Example usage: Indicate when the trade is canceled
-game:GetService("Chat"):Chat(game.Players.LocalPlayer.Character, "Trade canceled!")
-game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = "Trade canceled!"})
+game:GetService("TradeService"):SendTradeChat(player, "Trade canceled!") -- Sending message to trade chat
+game:GetService("Chat"):Chat(player.Character, "Trade canceled!") -- Sending message to in-game chat
